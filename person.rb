@@ -8,3 +8,14 @@ class Person
 
   attr_reader :id
   attr_accessor :name, :age
+
+  def can_use_services?
+    @parent_permission || is_of_age?
+  end
+
+  private :of_age?
+
+  def of_age?
+    @age >= 18
+  end
+end
