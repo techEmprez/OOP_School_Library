@@ -77,16 +77,15 @@ class App
     end
   end
 
-  # CREATE BOOK
-  def create_book
-    puts 'Book Title: '
+  # CREATE BOOK METHOD
+  def create_a_book
+    puts 'Create a new book'
+    print 'Enter the book title: '
     title = gets.chomp
-    puts 'Author: '
+    print 'Enter the book author: '
     author = gets.chomp
-
-    book = Book.new(title, author)
-    @books.push(book)
-    puts 'Book created successfully!'
+    @books.push(Book.new(title, author))
+    puts "#{title} book was added successfully"
   end
 
   # LIST BOOKS METHOD
