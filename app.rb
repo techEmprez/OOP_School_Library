@@ -10,7 +10,7 @@ class App
     @rentals = []
   end
 
-  # CREATE PERSON
+  # CREATE PERSON METHOD
   def create_person
     puts 'Do you want to create a student (1) or teacher (2)? [Input the number]'
     input = gets.chomp.to_i
@@ -69,7 +69,7 @@ class App
     puts 'Person created successfully!'
   end
 
-  # LIST PEOPLE
+  # LIST PEOPLE METHOD
   def list_all_people
     puts 'There are no people in the list. Kindly add at least one person' if @people.empty?
     @people.each_with_index do |person, index|
