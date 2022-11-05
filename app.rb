@@ -26,28 +26,63 @@ class App
     end
   end
 
-  # CREATE A PERSON METHOD (teacher or student not a plain person)
-  def create_a_person()
-    puts 'Do you want to create a student(1) or a teacher(2)? [Enter a number 1 or 2]: '
-    cartegory = gets.chomp.to_i
-    case cartegory
+  # CREATE PERSON METHOD
+  def create_person
+    puts 'Do you want to create a student (1) or teacher (2)? [Input the number]'
+    input = gets.chomp.to_i
+    case input
     when 1
-      print 'Enter the student name: '
-      name = gets.chomp
-      print 'Enter the student\'s age: '
-      age = gets.chomp
-      @people.push(Student.new('classroom', name, age))
-      puts "#{name.capitalize} was added as a student successfully"
+      create_student
     when 2
-      print 'Enter the teacher name: '
-      name = gets.chomp
-      print 'Enter the teacher\'s age: '
-      age = gets.chomp
-      print 'Enter the teacher\'s specialization: '
-      specialization = gets.chomp
-      @people.push(Teacher.new(specialization, name, age))
-      puts "#{name.capitalize} was added as a teacher successfully"
+      create_teacher
+    else puts 'Invalid entry'
     end
+  end
+
+  # CREATE STUDENT METHOD
+  def create_student
+    puts 'student\'s age: '
+    age = gets.chomp.to_i
+    if age < 5 || age > 65 || age.nil?
+      puts 'Sorry, a student must have a valid age'
+      return
+    end
+
+    puts 'student\'s name: '
+    name = gets.chomp
+
+    puts 'does student have parent permission? [Y/N]'
+    parent_permission = gets.chomp.capitalize
+    case parent_permission
+    when 'Y'
+      true
+    when 'N'
+      false
+    end
+
+    student = Student.new(age, name, parent_permission)
+    @people.push(student)
+    puts 'Person created successfully!'
+  end
+
+  # CREATE TEACHER METHOD
+  def create_teacher
+    puts 'Teacher\'s age: '
+    age = gets.chomp.to_i
+    if age < 18 || age > 65 || age.class != Integer || age.nil?
+      puts 'Sorry, a teacher must have a valid age'
+      return
+    end
+
+    puts 'Teacher\'s name: '
+    name = gets.chomp
+
+    puts 'Specialization: '
+    specialization = gets.chomp
+
+    teacher = Teacher.new(age, name, specialization)
+    @people.push(teacher)
+    puts 'Person created successfully!'
   end
 
   # CREATE A BOOK METHOD
@@ -80,25 +115,25 @@ class App
 
   # LIST ALL RENTALS FOR A GIVEN PERSON ID
   def list_all_rentals
-    print 'Enter Person\'s ID: '
-    id = gets.chomp.to_i
-    puts 'List of all Rentals books: '
-    @rentals.each do |rental|
-      if rental.person.id == id
-        puts "Person: #{rental.person.name}
-        Date: #{rental.date},
-        Book '#{rental.book.title}' written by #{rental.book.author}"
-      else
-        puts 'Checking for person......'
-        puts 'No rentals found for the given ID for person'
-      end
+    list_people
+    print 'ID of person: '
+    input_id = gets.chomp.to_i
+    person = nil
+    @people.each do |item|
+      person = item if item.id == input_id
+    end
+
+    puts 'Rentals: '
+    person.rentals.each do |rental|
+      puts "Date #{rental.date}, Book '#{rental.book.title}', by #{rental.book.author} "
     end
   end
+end
 
-  # Main menu list method
-  def main_menu
-    puts 'Main menu'
-    puts 'Please choose an option by entering a number:
+# Main menu list method
+def main_menu
+  puts 'Main menu'
+  puts 'Please choose an option by entering a number:
         1 - List all Books
         2 - List all People
         3 - Create a person
@@ -106,32 +141,31 @@ class App
         5 - Create a rental
         6 - List all rentals for a given person id
         7 - Exit Library'
-    puts 'Waiting for Selection...'
-  end
-
-  # Handle main menu selction
-  # rubocop:disable Metrics/CyclomaticComplexity
-  def menu_selection
-    main_menu
-    selected = gets.chomp.to_i
-    case selected
-    when 1
-      list_all_books
-    when 2
-      list_all_people
-    when 3
-      create_a_person
-    when 4
-      create_a_book
-    when 5
-      create_a_rental
-    when 6
-      list_all_rentals
-    when 7
-      puts 'Thank you for using OOP school Library'
-      exit
-    end
-    menu_selection
-  end
-  # rubocop:enable Metrics/CyclomaticComplexity
+  puts 'Waiting for Selection...'
 end
+
+# Handle main menu selction
+# rubocop:disable Metrics/CyclomaticComplexity
+def menu_selection
+  main_menu
+  selected = gets.chomp.to_i
+  case selected
+  when 1
+    list_all_books
+  when 2
+    list_all_people
+  when 3
+    create_a_person
+  when 4
+    create_a_book
+  when 5
+    create_a_rental
+  when 6
+    list_all_rentals
+  when 7
+    puts 'Thank you for using OOP school Library'
+    exit
+  end
+  menu_selection
+end
+# rubocop:enable Metrics/CyclomaticComplexity
