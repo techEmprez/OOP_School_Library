@@ -35,7 +35,7 @@ class Main
     when 5
       @app.create_rental
     when 6
-      @app.list_rentals
+      @app.list_all_rentals
     end
   end
 end

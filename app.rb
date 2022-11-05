@@ -2,7 +2,6 @@ require_relative './book'
 require_relative './rental'
 require_relative './student'
 require_relative './teacher'
-
 class App
   def initialize
     @books = []
@@ -19,6 +18,7 @@ class App
   end
 
   # LIST ALL PEOPLES METHOD
+
   def list_all_people
     puts 'There are no people in the list. Kindly add at least one person' if @people.empty?
     @people.each_with_index do |person, index|
@@ -80,17 +80,18 @@ class App
 
   # LIST ALL RENTALS FOR A GIVEN PERSON ID
   def list_all_rentals
-    list_people
-    print 'ID of person: '
-    input_id = gets.chomp.to_i
-    person = nil
-    @people.each do |item|
-      person = item if item.id == input_id
-    end
-
-    puts 'Rentals: '
-    person.rentals.each do |rental|
-      puts "Date #{rental.date}, Book '#{rental.book.title}', by #{rental.book.author} "
+    print 'Enter Person\'s ID: '
+    id = gets.chomp.to_i
+    puts 'List of all Rentals books: '
+    @rentals.each do |rental|
+      if rental.person.id == id
+        puts "Person: #{rental.person.name}
+        Date: #{rental.date},
+        Book '#{rental.book.title}' written by #{rental.book.author}"
+      else
+        puts 'Checking for person......'
+        puts 'No rentals found for the given ID for person'
+      end
     end
   end
 end
