@@ -10,7 +10,7 @@ class App
     @people = []
   end
 
-  # List all books method
+  # LIST ALL BOOKS METHOD
   def list_all_books
     puts 'There are no books found, Kindly add at least one book' if @books.empty?
     @books.each_with_index do |book, index|
@@ -18,7 +18,7 @@ class App
     end
   end
 
-  # List all people method
+  # LIST ALL PEOPLES METHOD
   def list_all_people
     puts 'There are no people in the list. Kindly add at least one person' if @people.empty?
     @people.each_with_index do |person, index|
@@ -26,7 +26,7 @@ class App
     end
   end
 
-  # Create a person method (teacher or student not a plain person)
+  # CREATE A PERSON METHOD (teacher or student not a plain person)
   def create_a_person()
     puts 'Do you want to create a student(1) or a teacher(2)? [Enter a number 1 or 2]: '
     cartegory = gets.chomp.to_i
@@ -50,7 +50,7 @@ class App
     end
   end
 
-  # Create a book
+  # CREATE A BOOK METHOD
   def create_a_book
     puts 'Create a new book'
     print 'Enter the book title: '
@@ -61,7 +61,7 @@ class App
     puts "#{title} book was added successfully"
   end
 
-  # Create a rental
+  # CREATE A RENTAL METHOD
   def create_a_rental()
     puts 'Select a book from the following list by the book number: '
     list_all_books
@@ -78,7 +78,7 @@ class App
     puts 'Rental book created successfully'
   end
 
-  # List all rentals for a given person id
+  # LIST ALL RENTALS FOR A GIVEN PERSON ID
   def list_all_rentals
     print 'Enter Person\'s ID: '
     id = gets.chomp.to_i
