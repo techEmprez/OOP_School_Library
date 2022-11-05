@@ -49,7 +49,7 @@ class App
     puts 'Person created successfully!'
   end
 
-  # CREATE TEACHER
+  # CREATE TEACHER METHOD
   def create_teacher
     puts 'Teacher\'s age: '
     age = gets.chomp.to_i
