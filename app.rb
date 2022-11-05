@@ -62,20 +62,25 @@ class App
   end
 
   # CREATE A RENTAL METHOD
-  def create_rental()
-    puts 'Select a book from the following list by the book number: '
-    list_all_books
-    book_number = gets.chomp.to_i
-    puts 'Book selected'
-    puts 'Select a person from the following list by the person\'s number: '
-    list_all_people
-    person_number = gets.chomp.to_i
-    puts 'Person selected'
+  def create_rental
+    puts 'Select a book from the following list by number'
+    @books.each_with_index do |book, index|
+      puts "#{index}) Title: '#{book.title}', Author: #{book.author}"
+    end
+    book_input = gets.chomp.to_i
+
+    puts 'Select a person from the following list by number'
+    @people.each_with_index do |person, index|
+      puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+    end
+    person_input = gets.chomp.to_i
+
     print 'Date: '
     date = gets.chomp
-    puts 'Date of renting book is added'
-    @rentals.push(Rental.new(date, @people[person_number - 1], @books[book_number - 1]))
-    puts 'Rental book created successfully'
+
+    rental = Rental.new(date, @books[book_input], @people[person_input])
+    @rentals.push(rental)
+    puts 'Rental created successfully!'
   end
 
   # LIST ALL RENTALS FOR A GIVEN PERSON ID
@@ -84,7 +89,7 @@ class App
     id = gets.chomp.to_i
     puts 'List of all Rentals books: '
     @rentals.each do |rental|
-      if rental.person.id == id
+      if rental.person.id.to_i == id.to_i
         puts "Person: #{rental.person.name}
         Date: #{rental.date},
         Book '#{rental.book.title}' written by #{rental.book.author}"
