@@ -20,9 +20,9 @@ class App
 
   # LIST ALL PEOPLES METHOD
   def list_all_people
-    puts 'There are no people in the list. Kindly add at least one person' if @people.empty?
-    @people.each_with_index do |person, index|
-      puts "(#{index + 1}) [#{person.class}] => Id: #{person.id}, Name: #{person.name}, Age: #{person.age}"
+    puts
+    @people.each do |person|
+      puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age} "
     end
   end
 
@@ -86,7 +86,7 @@ class App
   end
 
   # CREATE A BOOK METHOD
-  def create_a_book
+  def create_book
     puts 'Create a new book'
     print 'Enter the book title: '
     title = gets.chomp
@@ -97,7 +97,7 @@ class App
   end
 
   # CREATE A RENTAL METHOD
-  def create_a_rental()
+  def create_rental()
     puts 'Select a book from the following list by the book number: '
     list_all_books
     book_number = gets.chomp.to_i
@@ -129,43 +129,3 @@ class App
     end
   end
 end
-
-# Main menu list method
-def main_menu
-  puts 'Main menu'
-  puts 'Please choose an option by entering a number:
-        1 - List all Books
-        2 - List all People
-        3 - Create a person
-        4 - Create a book
-        5 - Create a rental
-        6 - List all rentals for a given person id
-        7 - Exit Library'
-  puts 'Waiting for Selection...'
-end
-
-# Handle main menu selction
-# rubocop:disable Metrics/CyclomaticComplexity
-def menu_selection
-  main_menu
-  selected = gets.chomp.to_i
-  case selected
-  when 1
-    list_all_books
-  when 2
-    list_all_people
-  when 3
-    create_a_person
-  when 4
-    create_a_book
-  when 5
-    create_a_rental
-  when 6
-    list_all_rentals
-  when 7
-    puts 'Thank you for using OOP school Library'
-    exit
-  end
-  menu_selection
-end
-# rubocop:enable Metrics/CyclomaticComplexity

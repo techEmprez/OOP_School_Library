@@ -25,9 +25,9 @@ class Main
     @response = gets.chomp.to_i
     case @response
     when 1
-      @app.list_books
+      @app.list_all_books
     when 2
-      @app.list_people
+      @app.list_all_people
     when 3
       @app.create_person
     when 4
