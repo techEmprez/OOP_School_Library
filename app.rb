@@ -23,7 +23,7 @@ class App
     end
   end
 
-  # CREATE STUDENT
+  # CREATE STUDENT METHOD
   def create_student
     puts 'student\'s age: '
     age = gets.chomp.to_i
