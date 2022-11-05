@@ -113,19 +113,19 @@ class App
     puts 'Rental book created successfully'
   end
 
-  # LIST RENTALS
-  def list_rentals
-    list_people
-    print 'ID of person: '
-    input_id = gets.chomp.to_i
-    person = nil
-    @people.each do |item|
-      person = item if item.id == input_id
-    end
-
-    puts 'Rentals: '
-    person.rentals.each do |rental|
-      puts "Date #{rental.date}, Book '#{rental.book.title}', by #{rental.book.author} "
+  # LIST RENTALS FOR A GIVEN PERSON ID
+  def list_all_rentals
+    print 'Enter Person\'s ID: '
+    id = gets.chomp.to_i
+    puts 'List of all Rentals books: '
+    @rentals.each do |rental|
+      if rental.person.id == id
+        puts "Person: #{rental.person.name}
+        Date: #{rental.date},
+        Book '#{rental.book.title}' written by #{rental.book.author}"
+      else
+        puts 'Checking for person......'
+        puts 'No rentals found for the given ID for person'
+      end
     end
   end
-end
