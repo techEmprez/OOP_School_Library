@@ -1,5 +1,3 @@
-require './nameable'
-
 class Person < Nameable
   attr_reader :id
 
