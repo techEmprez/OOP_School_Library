@@ -3,10 +3,14 @@ require_relative './rental'
 require_relative './student'
 require_relative './teacher'
 class App
-  def initialize
-    @books = []
-    @rentals = []
+  attr_accessor :people, :book, :rental
+
+  def initialize()
     @people = []
+    @books = []
+    @book = nil
+    @rentals = []
+    @person = nil
   end
 
   # LIST ALL BOOKS METHOD
@@ -20,9 +24,12 @@ class App
   # LIST ALL PEOPLES METHOD
 
   def list_all_people
-    puts 'There are no people in the list. Kindly add at least one person' if @people.empty?
-    @people.each_with_index do |person, index|
-      puts "(#{index + 1}) [#{person.class}] => Id: #{person.id}, Name: #{person.name}, Age: #{person.age}"
+    if @people.length.zero?
+      puts 'You need at least one person'
+    else
+      @people.map.each_with_index do |person, index|
+        puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+      end
     end
   end
 
@@ -32,20 +39,35 @@ class App
     cartegory = gets.chomp.to_i
     case cartegory
     when 1
-      print 'Enter the student name: '
-      name = gets.chomp
-      print 'Enter the student\'s age: '
-      age = gets.chomp
-      @people.push(Student.new('classroom', name, age))
-      puts "#{name.capitalize} was added as a student successfully"
+      puts 'Great! let\'s create the student!'
+      print 'Student age: '
+      stdage = gets.chomp.to_i
+      print 'Student name: '
+      stdname = gets.chomp
+      print 'Student class: '
+      std_class = gets.chomp
+      print 'Parent permission? true/ false: '
+      stdparpermission = gets.chomp
+      case stdparpermission
+      when 'true'
+        @people.push(Student.new(stdage, std_class, stdname, true))
+        puts 'Student is created successfully'
+      when 'false'
+        @people.push(Student.new(stdage, std_class, stdname, false))
+
+        puts 'Student is created successfully'
+      else
+        puts 'That was an invalid entry'
+      end
     when 2
       print 'Enter the teacher name: '
-      name = gets.chomp
+      name = gets.chomp.to_s
       print 'Enter the teacher\'s age: '
       age = gets.chomp
       print 'Enter the teacher\'s specialization: '
       specialization = gets.chomp
-      @people.push(Teacher.new(specialization, name, age))
+      teacher_permission = true
+      @people.push(Teacher.new(name, age, specialization, teacher_permission))
       puts "#{name.capitalize} was added as a teacher successfully"
     end
   end
@@ -63,24 +85,25 @@ class App
 
   # CREATE A RENTAL METHOD
   def create_rental
-    puts 'Select a book from the following list by number'
+    puts 'Select the id of the book you want: '
     @books.each_with_index do |book, index|
-      puts "#{index}) Title: '#{book.title}', Author: #{book.author}"
+      puts "#{index + 1}) Title: \"#{book.title}\" Author: #{book.author}"
     end
-    book_input = gets.chomp.to_i
+    number = gets.chomp.to_i
+    index = number - 1
 
-    puts 'Select a person from the following list by number'
-    @people.each_with_index do |person, index|
-      puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
-    end
-    person_input = gets.chomp.to_i
+    puts 'Type your ID: '
+    @people.each { |person| puts "[#{person.class}] Name: #{person.name} | Age: #{person.age} | ID: #{person.id}" }
+    identity = gets.chomp.to_i
 
-    print 'Date: '
-    date = gets.chomp
+    individual = @people.select { |person| person.id == identity }.first
 
-    rental = Rental.new(date, @books[book_input], @people[person_input])
-    @rentals.push(rental)
-    puts 'Rental created successfully!'
+    print 'Enter date of renting the book:(yyyy-mm-dd) '
+    date = gets.chomp.to_s
+    rent = Rental.new(date, @books[index], individual)
+    @rentals << rent
+
+    puts 'Book rented successfully'
   end
 
   # LIST ALL RENTALS FOR A GIVEN PERSON ID
@@ -98,5 +121,10 @@ class App
         puts 'No rentals found for the given ID for person'
       end
     end
+  end
+
+  def quit_app
+    puts 'Thank you for using my app!'
+    exit(true)
   end
 end
