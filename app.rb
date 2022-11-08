@@ -14,7 +14,7 @@ class App
   end
 
   # LIST ALL BOOKS METHOD
-  def list_all_books
+  def list_books
     puts 'There are no books found, Kindly add at least one book' if @books.empty?
     @books.each_with_index do |book, index|
       puts "(#{index + 1}) Book => Title: #{book.title}, Author: #{book.author}"
@@ -23,7 +23,7 @@ class App
 
   # LIST ALL PEOPLES METHOD
 
-  def list_all_people
+  def list_people
     if @people.length.zero?
       puts 'You need at least one person'
     else
@@ -85,23 +85,19 @@ class App
 
   # CREATE A RENTAL METHOD
   def create_rental
-    puts 'Select the id of the book you want: '
-    @books.each_with_index do |book, index|
-      puts "#{index + 1}) Title: \"#{book.title}\" Author: #{book.author}"
-    end
-    number = gets.chomp.to_i
-    index = number - 1
+    puts 'Select a book from the following list by number'
+    list_books
+    book_number = gets.chomp.to_i
 
-    puts 'Type your ID: '
-    @people.each { |person| puts "[#{person.class}] Name: #{person.name} | Age: #{person.age} | ID: #{person.id}" }
-    identity = gets.chomp.to_i
+    puts 'Select a person from the following list by number'
+    list_people
+    person_number = gets.chomp.to_i
 
-    individual = @people.select { |person| person.id == identity }.first
+    print 'Date: '
+    date = gets.chomp
 
-    print 'Enter date of renting the book:(yyyy-mm-dd) '
-    date = gets.chomp.to_s
-    rent = Rental.new(date, @books[index], individual)
-    @rentals << rent
+    @rentals.push(Rental.new(date, @people[person_number - 1], @books[book_number - 1]))
+    @rentals.push(rental)
 
     puts 'Book rented successfully'
   end
