@@ -103,7 +103,7 @@ class App
   end
 
   # LIST ALL RENTALS FOR A GIVEN PERSON ID
-  def list_all_rentals
+  def list_rentals
     print 'Enter Person\'s ID: '
     id = gets.chomp.to_i
     puts 'List of all Rentals books: '
