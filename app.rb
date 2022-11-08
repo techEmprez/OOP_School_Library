@@ -85,36 +85,41 @@ class App
 
   # CREATE A RENTAL METHOD
   def create_rental
-    puts 'Select a book from the following list by number'
-    list_books
-    book_number = gets.chomp.to_i
+    puts 'Select the id of the book you want: '
+    @books.each_with_index do |book, index|
+      puts "#{index + 1}) Title: \"#{book.title}\" Author: #{book.author}"
+    end
+    number = gets.chomp.to_i
+    index = number - 1
 
-    puts 'Select a person from the following list by number'
-    list_people
-    person_number = gets.chomp.to_i
+    puts 'Type your ID: '
+    @people.each { |person| puts "[#{person.class}] Name: #{person.name} | Age: #{person.age} | ID: #{person.id}" }
+    identity = gets.chomp.to_i
 
-    print 'Date: '
-    date = gets.chomp
+    individual = @people.select { |person| person.id == identity }.first
 
-    @rentals.push(Rental.new(date, @people[person_number - 1], @books[book_number - 1]))
-    @rentals.push(rental)
+    print 'Enter date of renting the book:(yyyy-mm-dd) '
+    date = gets.chomp.to_s
+    rent = Rental.new(date, @books[index], individual)
+    @rentals << rent
 
     puts 'Book rented successfully'
   end
 
   # LIST ALL RENTALS FOR A GIVEN PERSON ID
-  def list_rentals
-    print 'Enter Person\'s ID: '
+  def list_all_rentals_id
+    puts 'There are no rentals available at the moment' if @rentals.empty?
+    print 'Wonderful! let\'s find your book!\n, Type your ID: '
     id = gets.chomp.to_i
-    puts 'List of all Rentals books: '
-    @rentals.each do |rental|
-      if rental.person.id == id
-        puts "Person: #{rental.person.name}
-        Date: #{rental.date},
-        Book '#{rental.book.title}' written by #{rental.book.author}"
-      else
-        puts 'Checking for person......'
-        puts 'No rentals found for the given ID for person'
+    rental = @rentals.select { |rent| rent.person.id == id }
+    if rental.empty?
+      puts 'Sorry there are no records for that ID'
+    else
+      puts 'Here are your records: '
+      puts ''
+      rental.each_with_index do |record, index|
+        puts "#{index + 1}) Date: #{record.date} Borrower: #{record.person.name}
+         Status: #{record.person.class} Borrowed book: \"#{record.book.title}\" by #{record.book.author}"
       end
     end
   end

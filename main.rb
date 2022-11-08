@@ -51,7 +51,7 @@ def match_input(choice)
 
   when 6
 
-    @response.list_rentals
+    @response.list_all_rentals_id
 
   when 7
 
