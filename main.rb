@@ -1,44 +1,79 @@
 require_relative './app'
 
-class Main
-  def initialize
-    @app = App.new
-    @response = 0
-  end
+@response = App.new
 
-  def menu_options
-    puts 'WELCOME TO THE SCHOOL LIBRARY APP!'
-    while @response != 7
-      puts 'Please choose an option by entering a number: '
-      puts '1 - List all books'
-      puts '2 - List all people'
-      puts '3 - Create person'
-      puts '4 - Create a book'
-      puts '5 - Create a rental'
-      puts '6 - List all rentals for a given person id'
-      puts '7 - Exit'
-      start_app
-    end
-  end
+def menu_options
+  print 'Welcome to my Library! You may perform the following tasks:
 
-  def start_app
-    @response = gets.chomp.to_i
-    case @response
-    when 1
-      @app.list_all_books
-    when 2
-      @app.list_all_people
-    when 3
-      @app.create_person
-    when 4
-      @app.create_book
-    when 5
-      @app.create_rental
-    when 6
-      @app.list_all_rentals
-    end
+    1. List all books.
+
+    2. List all people
+
+    3. Create a person
+
+    4. Create a book.
+
+    5. Create a rental
+
+    6. List all rentals for a given person id.
+
+    7. Exit
+
+    Choose (1-7): '
+end
+
+def user_choice
+  gets.chomp.to_i
+end
+
+def match_input(choice)
+  case choice
+
+  when 1
+
+    @response.list_books
+
+  when 2
+
+    @response.list_people
+
+  when 3
+
+    @response.create_person
+
+  when 4
+
+    @response.create_book
+
+  when 5
+
+    @response.create_rental
+
+  when 6
+
+    @response.list_all_rentals_id
+
+  when 7
+
+    @response.quit_app
+
+  else
+
+    puts 'Not a valid choice'
+
   end
 end
 
-main = Main.new
-main.menu_options
+def main(status)
+  loop do
+    break unless status
+
+    menu_options
+
+    user_input = user_choice
+
+    match_input(user_input)
+  end
+end
+
+main(true)

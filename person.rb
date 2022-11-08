@@ -5,7 +5,7 @@ class Person < Nameable
   attr_reader :id
   attr_accessor :name, :age, :rentals
 
-  def initialize(age, name = 'Unknown', parent_permission: true)
+  def initialize(age, name = 'Unknown', parent_permission = 'true')
     super()
     @id = Random.rand(1..10_000)
     @name = name
@@ -22,8 +22,9 @@ class Person < Nameable
     @name
   end
 
-  def add_book_rental(book, date)
-    Rental.new(date, book, self)
+  def add_book_rental(rentals)
+    @rentals << rentals
+    rentals.person = self
   end
 
   private
